@@ -1,0 +1,38 @@
+@charset "utf-8";
+
+/*
+ * =============================================================================
+ * GENERAL STYLES
+ * =============================================================================
+ */
+
+body {
+  overflow: scroll;
+  padding-top: 70px; /* For fixed top navbar */
+}
+
+/*
+ * -----------------------------------------------------------------------------
+ * Logout button
+ * -----------------------------------------------------------------------------
+ */
+
+#logout-button {
+  padding: 15px;
+  /*
+  Border is transparent and navbar becomes higher by two width of the border
+  It can be checked using focus
+  */
+  border: none;
+}
+
+#logout-button:focus,
+#logout-button:hover {
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  #logout-button {
+    padding: 10px 0 10px 15px;
+  }
+}
