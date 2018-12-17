@@ -46,6 +46,9 @@ $config = [
             'enableAutoLogin' => true,
             'loginUrl' => ['account/login'],
         ],
+        'month' => [
+            'class' => 'app\components\MonthComponents'
+        ]
     ],
     'defaultRoute' => 'main',
     'name' => 'AntohaHOUSE',

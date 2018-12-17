@@ -56,7 +56,7 @@ $user = Yii::$app->user->identity;
             // Contact
 
             //['label' => Yii::t('main', 'Contact'), 'url' => ['main/contact']],
-            ['label' => 'Антоха', 'url' => ['main/contact']],
+            ['label' => 'Добавить оплату', 'url' => ['main/addprice']],
             // Login
 
             Yii::$app->user->isGuest

@@ -19,6 +19,7 @@ use yii\web\IdentityInterface;
  * @property bool   $status
  * @property string $created_at
  * @property string $updated_at
+ * @property string $uuid_pay
  */
 class User extends BaseActiveRecord implements IdentityInterface
 {
