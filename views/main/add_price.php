@@ -11,6 +11,8 @@ use \yii\widgets\ActiveForm;
 ?>
 <div class="row">
     <div class="col-lg-5">
+        <?= \app\widgets\Alert::widget() ?>
+
         <?php
         $form = ActiveForm::begin([
             'id' => 'add_price_house',
@@ -31,22 +33,44 @@ use \yii\widgets\ActiveForm;
                 [
                     'prompt' => 'Выбрать месяц'
                 ]
-            );
+            )
+        ->label('Месяц');
         ?>
-        <?= $form->field($model, 'price_pay'); ?>
-        <?= $form->field($model, 'currency'); ?>
-        <?= $form->field($model, 'dop_pay')->label('Дополнительные траты. Только суммы через ,'); ?>
+        <?= $form->field($model, 'currency')
+        ->dropDownList([
+            'USD' => 'USD Доллар США',
+            'BYN' => 'BYN Белорусский рубль'
+            ],
+            [
+                'prompt' => 'Выбрать валюту'
+            ])
+        ->label('Валюта оплаты');
+        ?>
+        <?=
+        $form->field($model, 'price_pay')
+        ->label('Указать цену');
+        ?>
+        <?= $form->field($model, 'dop_pay')->label('Дополнительные траты. Только суммы через , (20, 30)'); ?>
         <!--<div class="form-group">
             <a style="cursor: pointer;" id="btn_add" onclick="antohaJS.showFirstInput()">Добавить дополнительные траты</a>
             <span id="count_input_dop"></span>
         </div>-->
-        <?= $form->field($model, 'name_pay'); ?>
+        <?=
+        $form->field($model, 'name_pay')
+        ->label('Наименование услуги. Что оплачиваем');
+        ?>
         <div class="form-group">
-            <?= Html::submitButton('send') ?>
+            <?= Html::submitButton('send', [
+                'class' => 'btn btn-primary'
+            ]) ?>
         </div>
         <?php
         ActiveForm::end();
         ?>
     </div>
-    <div class="col-lg-7"></div>
+    <div class="col-lg-7">
+        <?php
+        //$kurs = @simplexml_load_file('http://www.nbrb.by/Services/XmlExRates.aspx');
+        ?>
+    </div>
 </div>

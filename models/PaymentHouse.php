@@ -36,7 +36,7 @@ class PaymentHouse extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uuid', 'user_id', 'month_pay', 'price_pay', 'currency', 'name_pay'], 'required'],
+            [['uuid', 'user_id', 'month_pay', 'price_pay', 'currency', 'name_pay'], 'required', 'message' => 'Обязательно для заполнения'],
             [['user_id', 'price_pay'], 'integer'],
             [['dop_pay'], 'string'],
             [['date_pay'], 'safe'],

@@ -18,17 +18,22 @@ $this->title = Yii::$app->name;
         <table class="table table-hover">
             <thead> <tr> <th>#</th> <th>Месяц</th> <th>Цена</th> <th>Валюта</th><th>Оплата</th><th>Дата</th> </tr> </thead>
             <tbody>
-            <?php foreach ($all_pays as $all_pay): ?>
+            <?php foreach ($models as $model): ?>
                 <tr>
-                    <th><?= $all_pay['id']?></th>
-                    <td><?= $all_pay['month_pay']?></td>
-                    <td><?= $all_pay['price_pay']?></td>
-                    <td><?= $all_pay['currency']?></td>
-                    <td><?= $all_pay['name_pay']?></td>
-                    <td><?= $all_pay['date_pay']?></td>
+                    <th><?= $model['id']?></th>
+                    <td><?= $model['month_pay']?></td>
+                    <td><?= $model['price_pay']?></td>
+                    <td><?= $model['currency']?></td>
+                    <td><?= $model['name_pay']?></td>
+                    <td><?= $model['date_pay']?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
+    <?php
+    echo \yii\widgets\LinkPager::widget([
+            'pagination' => $pages
+    ])
+    ?>
 </div>

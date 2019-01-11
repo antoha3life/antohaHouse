@@ -6,12 +6,31 @@ use app\base\BaseController;
 use app\forms\ContactForm;
 use app\models\{PaymentHouse, PaymentYear, User};
 use Yii;
-
+use yii\data\Pagination;
+use yii\filters\AccessControl;
 /**
  * Main controller.
  */
 class MainController extends BaseController
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -29,10 +48,26 @@ class MainController extends BaseController
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('account/login');
+        }
+
         $user_id = Yii::$app->user->getId();
+        $query = PaymentHouse::find()->where(['user_id' => $user_id]);
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $pages->forcePageParam = false;
+        $pages->pageSizeParam = false;
+        $pages->setPageSize(10);
+        $models = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->orderBy(['id' => SORT_DESC ])
+            ->all();
+
         $data = [
-            'all_pays' => PaymentHouse::find()->where(['user_id' => $user_id])->orderBy(['id' => SORT_DESC ])->all(),
-            'count_all_pay' => PaymentYear::find()->where(['p_uuid'=>BaseController::getUserParam('uuid_pay')])->one()
+            'count_all_pay' => PaymentYear::find()->where(['p_user'=>BaseController::getUserParam('uuid_pay')])->one(),
+            'models' => $models,
+            'pages' => $pages
         ];
         return $this->render('index', $data);
     }
@@ -69,23 +104,23 @@ class MainController extends BaseController
                 if ($model->save()){
 
                     $uuid_user = BaseController::getUserParam('uuid_pay');
-                    $pay = PaymentYear::find()->where(['p_uuid' => $uuid_user, 'p_year' => date('Y')])->one();
+                    $pay = PaymentYear::find()->where(['p_user' => $uuid_user, 'p_year' => date('Y')])->one();
                     if($pay){
                         $pay->price_count = $pay->price_count + $model->price_pay;
                         $pay->save();
                     }else{
                         $payment_year = new PaymentYear();
                         $payment_year->p_uuid = $model->uuid;
+                        $payment_year->p_user = $uuid_user;
                         $payment_year->p_year = date('Y');
                         $payment_year->price_count = $payment_year->price_count + $model->price_pay;
                         $payment_year->save();
 
-                        $uuid_user->uuid_pay = $model->uuid;
-                        $uuid_user->save();
+                        //$uuid_user->uuid_pay = $model->uuid;
+                        //$uuid_user->save();
                     }
-
-
-                    $this->redirect(['addprice', 'id' => 'success']);
+                    Yii::$app->session->addFlash('success','Успешно добавлена оплата');
+                    //$this->redirect(['addprice', 'id' => 'success']);
                 }
             }
         }

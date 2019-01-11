@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $pid
  * @property string $p_uuid
+ * @property string $p_user
  * @property int $p_year
  * @property double $price_count
  *
@@ -31,9 +32,11 @@ class PaymentYear extends \yii\db\ActiveRecord
     {
         return [
             [['p_uuid'], 'required'],
+            [['p_user'], 'required'],
             [['p_year'], 'integer'],
             [['price_count'], 'number'],
             [['p_uuid'], 'string', 'max' => 20],
+            [['p_user'], 'string', 'max' => 20],
             [['p_uuid'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentHouse::className(), 'targetAttribute' => ['p_uuid' => 'uuid']],
         ];
     }
@@ -46,6 +49,7 @@ class PaymentYear extends \yii\db\ActiveRecord
         return [
             'pid' => 'Pid',
             'p_uuid' => 'P Uuid',
+            'p_user' => 'P User uuid',
             'p_year' => 'P Year',
             'price_count' => 'Price Count',
         ];

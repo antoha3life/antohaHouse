@@ -12,13 +12,16 @@ return [
     'showScriptName' => false,
     'rules' => [
 
+        //'' => '',
         // Account controller
 
         'account' => 'account/index',
 
         // Main controller
-
+        'page/<page:\d+>' => 'main/index',
         '<action:[A-Za-z0-9-]+>' => 'main/<action>',
+
+        //'post/' => 'post/index',
 
     ],
 ];
