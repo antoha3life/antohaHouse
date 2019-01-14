@@ -8,6 +8,8 @@
 
 use \yii\helpers\Html;
 use \yii\widgets\ActiveForm;
+
+$this->title = "Добавить оплату за хату"
 ?>
 <div class="row">
     <div class="col-lg-5">

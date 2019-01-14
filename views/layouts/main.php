@@ -36,17 +36,17 @@ $user = Yii::$app->user->identity;
 </head>
 <body>
 <?php $this->beginBody() ?>
-<div id="<?= ROUTE_AS_ID ?>">
+<div>
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-default navbar-fixed-top',
+            'class' => 'navbar navbar-default navbar-fixed-top',
         ],
     ]);
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
+        'options' => ['class' => 'nav navbar-nav navbar-right'],
         'items' => [
 
             // About
@@ -61,6 +61,7 @@ $user = Yii::$app->user->identity;
                     ''
                 :
                 ['label' => 'Добавить оплату', 'url' => ['main/addprice']],
+                ['label' => 'Добавить фото', 'url' => ['photo/uploadphoto']],
             // Login
 
             Yii::$app->user->isGuest
@@ -71,9 +72,29 @@ $user = Yii::$app->user->identity;
                     ]
                 :
                     [
-                        'label' => $user->email,
-                        'url' => ['account/index'],
-                    ],
+                        'label' => ucfirst($user->username),
+                        'items' => [
+                            [ 'label' => ucfirst($user->username), 'url' => ['account/index'] ],
+                            [ 'label' => 'Альбомы', 'url' => ['photo/albums'] ],
+                            [ 'label' => 'Настройки', 'url' => ['account/setting'] ],
+                            '<li class="divider"></li>',
+                            '<li>' .
+                            Html::beginForm(['account/logout'], 'post', [
+                                'id' => 'logout-form',
+                            ]) .
+                            Html::submitButton(
+                                Yii::t('main', 'Logout'),
+                                [
+                                    'id' => 'logout-button',
+                                    'class' => '',
+                                    'style' => 'padding: 3px 20px; background: #fff;'
+                                ]
+                            ) .
+                            Html::endForm() .
+                            '</li>'
+                        ]
+                    ]
+            ,
 
             // Signup
 
@@ -84,19 +105,7 @@ $user = Yii::$app->user->identity;
                         'url' => ['account/signup'],
                     ]
                 :
-                    '<li>' .
-                        Html::beginForm(['account/logout'], 'post', [
-                            'id' => 'logout-form',
-                        ]) .
-                            Html::submitButton(
-                                Yii::t('main', 'Logout'),
-                                [
-                                    'id' => 'logout-button',
-                                    'class' => 'btn btn-link',
-                                ]
-                            ) .
-                        Html::endForm() .
-                    '</li>',
+                    '',
         ],
     ]);
     NavBar::end();

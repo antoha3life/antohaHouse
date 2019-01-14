@@ -23,7 +23,8 @@ class m000000_000001_create_user_table extends Migration
               `password_reset_token` VARCHAR(255),
               `status` TINYINT(2) DEFAULT 1,
               `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-              `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP
+              `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+              `uuid_pay` VARCHAR(20) NOT NULL
                 ON UPDATE CURRENT_TIMESTAMP
             );
 

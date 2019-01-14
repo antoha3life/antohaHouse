@@ -14,13 +14,13 @@ return [
 
         //'' => '',
         // Account controller
-
         'account' => 'account/index',
 
         // Main controller
         'page/<page:\d+>' => 'main/index',
         '<action:[A-Za-z0-9-]+>' => 'main/<action>',
 
+        '<controller:(\w|-)+>'=>'<controller>/index',
         //'post/' => 'post/index',
 
     ],
